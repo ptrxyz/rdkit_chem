@@ -25,6 +25,9 @@ Dir.chdir main_dir do
   system git
 end
 
+env_boost_root = ENV['PKG_CONFIG_PATH']
+boost_root = env_boost_root.empty? ? '/usr/include' : env_boost_root
+
 FileUtils.mkdir_p build_dir
 FileUtils.mkdir_p install_dir
 Dir.chdir build_dir do
@@ -33,7 +36,7 @@ Dir.chdir build_dir do
   cmake = "cmake #{src_dir} -DCMAKE_INSTALL_PREFIX=#{install_dir} " \
           '-DCMAKE_BUILD_TYPE=Release -DRDK_BUILD_PYTHON_WRAPPERS=OFF ' \
           '-DRDK_BUILD_SWIG_WRAPPERS=ON -DRDK_BUILD_INCHI_SUPPORT=ON ' \
-          '-DBOOST_ROOT=/usr/include/'
+          "-DBOOST_ROOT=#{boost_root}"
   system cmake
 end
 
