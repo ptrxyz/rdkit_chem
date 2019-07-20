@@ -12,7 +12,7 @@ GEM for [RDKIT](http://rdkit.org/), an Open-Source Cheminformatics Software
   * SWIG 2 or later
   * python header (`python-dev`)
   * sqlite (`sqlite3-dev`)
-  * boost > 1.58
+  * boost > 1.58 (`libboost-all-dev`)
   
 
 ## Install
