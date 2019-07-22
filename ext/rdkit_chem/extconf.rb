@@ -25,7 +25,7 @@ Dir.chdir main_dir do
   system git
 end
 
-env_boost_root = ENV['PKG_CONFIG_PATH']
+env_boost_root = ENV['BOOST_ROOT'] || ""
 boost_root = env_boost_root.empty? ? '/usr/include' : env_boost_root
 
 FileUtils.mkdir_p build_dir
