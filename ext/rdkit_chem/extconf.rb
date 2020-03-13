@@ -1,14 +1,14 @@
+# frozen_string_literal: true
+
 require 'fileutils'
 require 'rbconfig'
 require 'mkmf'
 
-main_dir = File.expand_path(File.join(File.dirname(__FILE__),"..",".."))
-
-rdkit_dir = File.join main_dir, 'rdkit'
+main_dir = File.expand_path(File.join(File.dirname(__FILE__), '..', '..'))
+rdkit_dir = File.join(main_dir, 'rdkit')
+install_dir = File.join(main_dir, 'rdkit_chem')
 src_dir = rdkit_dir
-
-build_dir = File.join src_dir, 'build'
-install_dir = rdkit_dir
+build_dir = File.join(src_dir, 'build')
 
 begin
   nr_processors = `getconf _NPROCESSORS_ONLN`.to_i # should be POSIX compatible
@@ -25,11 +25,16 @@ Dir.chdir main_dir do
   system git
 end
 
-env_boost_root = ENV['BOOST_ROOT'] || ""
+FileUtils.cp_r(
+  File.join(main_dir, 'ext', 'rdkit_chem', 'CMakeLists.txt'),
+  File.join(rdkit_dir, 'Code', 'RubyWrappers', 'gmwrapper'),
+  remove_destination: true
+)
+
+env_boost_root = ENV['BOOST_ROOT'] || ''
 boost_root = env_boost_root.empty? ? '/usr/include' : env_boost_root
 
 FileUtils.mkdir_p build_dir
-FileUtils.mkdir_p install_dir
 Dir.chdir build_dir do
   puts 'Configuring RDKit'
 
@@ -46,9 +51,10 @@ Dir.chdir build_dir do
   system "make -j#{nr_processors}"
   system 'make install'
 end
+FileUtils.remove_dir(rdkit_dir)
 
 # create a fake Makefile
-File.open(File.join(File.dirname(__FILE__), 'Makefile'), "w+") do |makefile|
+File.open(File.join(File.dirname(__FILE__), 'Makefile'), 'w+') do |makefile|
   makefile.puts "all:\n\ttrue\n\ninstall:\n\ttrue\n"
 end
 
