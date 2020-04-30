@@ -1,5 +1,4 @@
 /*
-* $Id$
 *
 *  Copyright (c) 2010, Novartis Institutes for BioMedical Research Inc.
 *  All rights reserved.
@@ -35,20 +34,33 @@
 #include <GraphMol/MolOps.h>
 %}
 
+%feature("ignore") std::vector<boost::shared_ptr<RDKit::MolSanitizeException>>::equals;
+%template(MolSanitizeExceptionVect) std::vector<boost::shared_ptr<RDKit::MolSanitizeException>>;
+
 %newobject RDKit::MolOps::renumberAtoms;
 %newobject RDKit::MolOps::removeHs;
 %newobject RDKit::MolOps::addHs;
+%ignore RDKit::MolOps::detectChemistryProblems;
 %include <GraphMol/MolOps.h>
 %ignore RDKit::MolOps::sanitizeMol(RWMol &,unsigned int &,unsigned int &);
 
 %extend RDKit::MolOps {
-  int sanitizeMol(RDKit::RWMol &mol,int sanitizeOps){
+  int sanitizeMol(RDKit::RWMol &mol,int sanitizeOps) {
     unsigned int opThatFailed;
     try {
       RDKit::MolOps::sanitizeMol(mol,opThatFailed,
                                  static_cast<unsigned int>(sanitizeOps));
     } catch(...) {
+
     }
     return static_cast<int>(opThatFailed);
-  }
+  };
+  std::vector<boost::shared_ptr<RDKit::MolSanitizeException>> detectChemistryProblems(RDKit::ROMol &mol,int sanitizeOps=RDKit::MolOps::SANITIZE_ALL){
+    std::vector<boost::shared_ptr<RDKit::MolSanitizeException>> res;
+    auto probs = RDKit::MolOps::detectChemistryProblems(mol,sanitizeOps);
+    for(const auto &exc_ptr : probs) {
+      res.push_back(boost::shared_ptr<RDKit::MolSanitizeException>(exc_ptr->copy()));
+    }
+    return res;
+  };
 }

@@ -46,6 +46,10 @@
 
 %template(IntStringMap) std::map< int, std::string >;
 
+#ifdef SWIGRUBY
+%template(ColourPalette) std::map< int, RDKit::DrawColour >;
+#endif
+
 %template(IntDoubleMap) std::map< int, double >;
 %template(ROMolPtrVect) std::vector<RDKit::ROMol*>;
 %template(Point2DVect) std::vector<RDGeom::Point2D *>;
