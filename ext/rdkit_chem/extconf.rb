@@ -20,14 +20,19 @@ FileUtils.mkdir_p rdkit_dir
 Dir.chdir main_dir do
   FileUtils.rm_rf src_dir
   puts 'Downloading RDKit sources'
-  git = "git clone https://github.com/CamAnNguyen/rdkit.git \
-          --branch 'ruby-binding'"
+  git = 'git clone https://github.com/rdkit/rdkit.git'
   system git
 end
 
 FileUtils.cp_r(
-  File.join(main_dir, 'ext', 'rdkit_chem', 'CMakeLists.txt'),
-  File.join(rdkit_dir, 'Code', 'RubyWrappers', 'gmwrapper'),
+  File.join(main_dir, 'Code'),
+  File.join(rdkit_dir),
+  remove_destination: true
+)
+
+FileUtils.cp_r(
+  File.join(main_dir, 'CMakeLists.txt'),
+  File.join(rdkit_dir),
   remove_destination: true
 )
 
@@ -38,10 +43,11 @@ FileUtils.mkdir_p build_dir
 Dir.chdir build_dir do
   puts 'Configuring RDKit'
 
-  cmake = "cmake #{src_dir} -DCMAKE_INSTALL_PREFIX=#{install_dir} " \
+  cmake = "cmake #{src_dir} -DRDK_INSTALL_INTREE=OFF " \
+          "-DCMAKE_INSTALL_PREFIX=#{install_dir} " \
           '-DCMAKE_BUILD_TYPE=Release -DRDK_BUILD_PYTHON_WRAPPERS=OFF ' \
           '-DRDK_BUILD_SWIG_WRAPPERS=ON -DRDK_BUILD_INCHI_SUPPORT=ON ' \
-          "-DBOOST_ROOT=#{boost_root}"
+          "-DBOOST_ROOT=#{boost_root} -DBoost_NO_BOOST_CMAKE=ON"
   system cmake
 end
 
@@ -51,7 +57,7 @@ Dir.chdir build_dir do
   system "make -j#{nr_processors}"
   system 'make install'
 end
-FileUtils.remove_dir(rdkit_dir)
+# FileUtils.remove_dir(rdkit_dir)
 
 # create a fake Makefile
 File.open(File.join(File.dirname(__FILE__), 'Makefile'), 'w+') do |makefile|

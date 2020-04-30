@@ -1,4 +1,4 @@
 module RDKitChem
-  VERSION = '2019.03.3'.freeze
+  VERSION = '2020.04.30'.freeze
   GEMVERSION = VERSION + '.1'
 end

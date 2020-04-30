@@ -1,22 +1,24 @@
-$:.unshift File.expand_path('../lib', __FILE__)
-
-require 'rdkit_chem/version'
+# -*- encoding: utf-8 -*-
+# stub: rdkit_chem 2020.04.30.1 ruby lib
+# stub: ext/rdkit_chem/extconf.rb
 
 Gem::Specification.new do |s|
-  s.name               = 'rdkit_chem'
-  s.version            = RDKitChem::GEMVERSION
+  s.name = "rdkit_chem".freeze
+  s.version = "2020.04.30.1"
 
-  s.authors = ['An Nguyen']
-  s.date = '2019-07-15'
-  s.description = 'RDKit as a GEM'
-  s.email = ['annguyen@kit.edu']
-  s.homepage = 'https://github.com/CamAnNguyen/rdkit-chem'
-  s.require_paths = ['lib']
-  s.rubygems_version = '0.0.1'
-  s.summary = 'Ruby gem for RDKit !'
-  s.license = 'BSD'
-  s.test_files = ['test/test_rdkit_chem.rb']
+  s.required_rubygems_version = Gem::Requirement.new(">= 0".freeze) if s.respond_to? :required_rubygems_version=
+  s.require_paths = ["lib".freeze]
+  s.authors = ["An Nguyen".freeze]
+  s.date = "2019-07-15"
+  s.description = "RDKit as a GEM".freeze
+  s.email = ["annguyen@kit.edu".freeze]
+  s.extensions = ["ext/rdkit_chem/extconf.rb".freeze]
+  s.files = ["Rakefile".freeze, "ext/rdkit_chem/extconf.rb".freeze, "lib/rdkit_chem.rb".freeze, "lib/rdkit_chem/version.rb".freeze, "test/test_rdkit_chem.rb".freeze]
+  s.homepage = "https://github.com/CamAnNguyen/rdkit-chem".freeze
+  s.licenses = ["BSD".freeze]
+  s.rubygems_version = "2.7.10".freeze
+  s.summary = "Ruby gem for RDKit !".freeze
+  s.test_files = ["test/test_rdkit_chem.rb".freeze]
 
-  s.files = %w[Rakefile lib/rdkit_chem.rb lib/rdkit_chem/version.rb]
-  s.extensions = ['ext/rdkit_chem/extconf.rb']
+  s.installed_by_version = "2.7.10" if s.respond_to? :installed_by_version
 end
