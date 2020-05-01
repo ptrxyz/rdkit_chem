@@ -417,6 +417,9 @@ typedef RDKit::MatchVectType MatchVectType;
 %include "../Streams.i"
 
 %include "../RGroupDecomposition.i"
+/* %include "../ScaffoldNetwork.i" */
+/* %include "../MolHash.i" */
+
 %include "../Descriptors.i"
 
 #ifdef RDK_BUILD_AVALON_SUPPORT

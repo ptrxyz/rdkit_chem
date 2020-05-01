@@ -24,6 +24,11 @@ Dir.chdir main_dir do
   system git
 end
 
+Dir.chdir(src_dir) do
+  checkout = 'git checkout 39bcee635e0ee8bc5da6798318fdcd4602c4baa6'
+  system checkout
+end
+
 FileUtils.cp_r(
   File.join(main_dir, 'Code'),
   File.join(rdkit_dir),
@@ -39,11 +44,24 @@ FileUtils.cp_r(
 env_boost_root = ENV['BOOST_ROOT'] || ''
 boost_root = env_boost_root.empty? ? '/usr/include' : env_boost_root
 
+host_os = RbConfig::CONFIG['host_os']
+is_linux = host_os =~ /linux/
+is_mac = host_os =~ /darwin/
+ld_path = ''
+
+if is_linux || is_mac
+  ld_string = is_linux ? 'LD_LIBRARY_PATH' : 'DYLD_LIBRARY_PATH'
+  ld_path = "#{ld_string}=#{install_dir}/lib"
+  env_ld = ENV[ld_string] || ''
+
+  ld_path += ":#{env_ld}" unless env_ld.empty?
+end
+
 FileUtils.mkdir_p build_dir
 Dir.chdir build_dir do
   puts 'Configuring RDKit'
 
-  cmake = "cmake #{src_dir} -DRDK_INSTALL_INTREE=OFF " \
+  cmake = "#{ld_path} cmake #{src_dir} -DRDK_INSTALL_INTREE=OFF " \
           "-DCMAKE_INSTALL_PREFIX=#{install_dir} " \
           '-DCMAKE_BUILD_TYPE=Release -DRDK_BUILD_PYTHON_WRAPPERS=OFF ' \
           '-DRDK_BUILD_SWIG_WRAPPERS=ON -DRDK_BUILD_INCHI_SUPPORT=ON ' \
@@ -54,10 +72,12 @@ end
 # local installation in gem directory
 Dir.chdir build_dir do
   puts 'Compiling RDKit sources.'
-  system "make -j#{nr_processors}"
-  system 'make install'
+  system "#{ld_path} make -j#{nr_processors}"
+  system "#{ld_path} make install"
 end
-# FileUtils.remove_dir(rdkit_dir)
+
+# Remove compiled file, free spaces
+FileUtils.remove_dir(rdkit_dir)
 
 # create a fake Makefile
 File.open(File.join(File.dirname(__FILE__), 'Makefile'), 'w+') do |makefile|
