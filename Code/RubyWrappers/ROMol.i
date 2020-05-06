@@ -149,6 +149,9 @@ void setPreferCoordGen(bool);
   std::string MolToMolBlock(bool includeStereo=true, int confId=-1) {
     return RDKit::MolToMolBlock(*($self),includeStereo,confId);
   }
+  std::string MolToMolBlock(bool includeStereo=true, int confId=-1, bool kekulize=true) {
+    return RDKit::MolToMolBlock(*($self),includeStereo,confId, kekulize);
+  }
   void MolToMolFile(std::string fName,bool includeStereo=true, int confId=-1,bool kekulize=true) {
     RDKit::MolToMolFile(*($self), fName, includeStereo, confId, kekulize);
   }
