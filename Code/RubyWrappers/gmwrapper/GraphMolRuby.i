@@ -367,6 +367,9 @@ typedef RDKit::MatchVectType MatchVectType;
   }
 }
 
+// DO THIS BEFORE ANY OF THE OTHER INCLUDES
+%include "../RDKitExceptions.i"
+
 %include "../point.i"
 // Need the types wrapper or we get undefined errors for STR_VECT
 %include "../types.i"
@@ -388,6 +391,7 @@ typedef RDKit::MatchVectType MatchVectType;
 %include "../QueryOps.i"
 %include "../MonomerInfo.i"
 %include "../PeriodicTable.i"
+%include "../SanitException.i"
 %include "../SmilesParse.i"
 %include "../SmilesWrite.i"
 %include "../SmartsWrite.i"
