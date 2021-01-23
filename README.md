@@ -17,7 +17,7 @@ GEM for [RDKIT](http://rdkit.org/), an Open-Source Cheminformatics Software
   
 
 ## Install
-gem install openbabel
+gem install rdkit_chem
 
 It downloads the sources, compiles and installs RDKIT with the ruby bindings.
 The installation may last very long - please be patient.
