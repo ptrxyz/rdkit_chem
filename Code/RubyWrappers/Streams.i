@@ -49,18 +49,6 @@ namespace std {
 class istream;
 }
 
-%extend RDKit::gzstream {
-    std::istream* _GetStream() { return (std::istream*)$self; }
-    std::string Dump() {
-      std::ostringstream stream;
-      std::copy(std::istreambuf_iterator<char>(*$self),
-                std::istreambuf_iterator<char>(),
-                std::ostreambuf_iterator<char>(stream));
-
-      return stream.str();
-    }
-}
-
 %include <../RDStreams/streams.h>
 
 

@@ -64,8 +64,8 @@ Dir.chdir build_dir do
   cmake = "#{ld_path} cmake #{src_dir} -DRDK_INSTALL_INTREE=OFF " \
           "-DCMAKE_INSTALL_PREFIX=#{install_dir} " \
           '-DCMAKE_BUILD_TYPE=Release -DRDK_BUILD_PYTHON_WRAPPERS=OFF ' \
-          '-DRDK_BUILD_SWIG_WRAPPERS=ON -DRDK_BUILD_INCHI_SUPPORT=ON ' \
-          "-DBOOST_ROOT=#{boost_root} -DBoost_NO_BOOST_CMAKE=ON"
+          '-DRDK_BUILD_SWIG_WRAPPERS=ON -DRDK_BUILD_INCHI_SUPPORT=OFF ' \
+          '-DBoost_NO_BOOST_CMAKE=ON'
   system cmake
 end
 
