@@ -13,7 +13,7 @@ GEM for [RDKIT](http://rdkit.org/), an Open-Source Cheminformatics Software
   * python header (`python-dev`)
   * sqlite (`sqlite3-dev`)
   * boost > 1.58 (`libboost-all-dev`)
-  * gcc -  **no later than 9.3.0, current code does not work with gcc-10**
+  * gcc
   
 
 ## Install
